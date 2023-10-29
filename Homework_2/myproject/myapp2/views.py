@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import logging
 from myapp2.models import Order, Client, Product
-
+from django.utils import timezone
+from datetime import timedelta
 
 logger = logging.getLogger(__name__)
 
@@ -57,3 +58,18 @@ def about(request):
 def all_orders(request):
     orders = Order.objects.all()
     return render(request, 'myapp2/all_orders.html', {'orders': orders})
+
+def get_ordered_products(request, customer_id, days):
+    end_date = timezone.now()
+    start_date = end_date - timedelta(days=days)
+    
+    orders = Order.objects.filter(customer_id=customer_id, date_ordered__range=(start_date, end_date))
+    products = Product.objects.filter(order__in=orders).distinct()
+
+    context = {
+        'customer_id': customer_id,
+        'days': days,
+        'products': products,
+    }
+
+    return render(request, 'ordered_products.html', context)
