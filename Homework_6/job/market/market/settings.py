@@ -28,7 +28,7 @@ SECRET_KEY = 'SECRET_KEY'
 DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 
-                 'sevenkapsul.pythonanywhere.com',
+                 'AdminDante.pythonanywhere.com',
 ]
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
